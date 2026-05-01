@@ -1,17 +1,9 @@
 /* Custom CSS for Butterfly Theme */
 
-/* Set background image for homepage header */
-#page-header.full_page {
-  background-image: url('/img/top-banner.jpg') !important;
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
-/* 移除页面头部背景色，实现一图流效果 */
+/* 移除页面头部背景色和背景图，实现一图流效果 */
 #page-header {
   background-color: transparent !important;
+  background-image: none !important;
 }
 
 /* 移除footer的蓝色背景，让背景图片贯穿到底部 */
