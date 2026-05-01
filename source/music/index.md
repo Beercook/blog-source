@@ -24,7 +24,13 @@ top_img: /img/top-banner.jpg
 
 ### 于是 - 邓紫棋
 
-<div class="aplayer" data-id="yushi" data-server="local" data-type="song" data-url="/music/audio/于是.mp3" data-name="于是" data-artist="邓紫棋" data-cover="/music/covers/a968a81f0c390bc6bb2a0ce00b79612c.jpg" data-lrc="/music/lrc/于是-G.E.M.邓紫棋_www.2t58.com.lrc"></div>
+<div class="aplayer" data-id="yushi" data-server="local" data-type="song" data-url="/music/audio/于是.mp3" data-name="于是" data-artist="邓紫棋" data-cover="/music/covers/于是.jpg" data-lrc="/music/lrc/于是.lrc"></div>
+
+---
+
+### 王位 - 杨和苏
+
+<div class="aplayer" data-id="wangwei" data-server="local" data-type="song" data-url="/music/audio/王位.mp3" data-name="王位" data-artist="杨和苏" data-cover="/music/covers/王位.jpg" data-lrc="/music/lrc/王位.lrc"></div>
 
 <script src="/assets/js/APlayer.min.js"></script>
 <script src="/assets/js/Meting.min.js"></script>
