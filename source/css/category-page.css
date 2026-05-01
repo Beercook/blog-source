@@ -1,0 +1,56 @@
+/* 分类页面自定义样式 */
+
+#article-container .category-custom-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#article-container .category-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+#article-container .category-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 15px;
+  padding: 30px;
+  color: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+}
+
+#article-container .category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+#article-container .category-card.notes {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+#article-container .category-card h2 {
+  margin: 0 0 15px 0;
+  font-size: 28px;
+  color: white;
+}
+
+#article-container .category-card p {
+  margin: 0 0 20px 0;
+  opacity: 0.9;
+  line-height: 1.6;
+  color: white;
+}
+
+#article-container .category-card .count {
+  display: inline-block;
+  background: rgba(255,255,255,0.2);
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  color: white;
+}

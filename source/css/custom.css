@@ -1,0 +1,64 @@
+/* Custom CSS for Butterfly Theme */
+
+/* Set background image for homepage header */
+#page-header.full_page {
+  background-image: url('/img/top-banner.jpg') !important;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Custom category page styles */
+.category-custom-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.category-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.category-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 15px;
+  padding: 30px;
+  color: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.category-card.notes {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.category-card h2 {
+  margin: 0 0 15px 0;
+  font-size: 28px;
+  color: white;
+}
+
+.category-card p {
+  margin: 0 0 20px 0;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+.category-card .count {
+  display: inline-block;
+  background: rgba(255,255,255,0.2);
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+}

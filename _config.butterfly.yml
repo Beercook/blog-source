@@ -1,0 +1,109 @@
+# --------------------------------------
+# Hexo Butterfly Theme Configuration
+# --------------------------------------
+
+# Language setting (语言设置)
+language: zh-CN
+
+# Custom CSS and JS injection
+inject:
+  head:
+    - <link rel="stylesheet" href="/css/custom.css">
+  bottom:
+    - <script src="/js/load-custom-css.js"></script>
+
+# Navigation menu settings (导航菜单设置)
+menu:
+  首页: / || fas fa-home
+  我的文档: /categories/ || fas fa-book
+  图库: /gallery/ || fas fa-images
+  音乐: /music/ || fas fa-music
+  标签: /tags/ || fas fa-tags
+  分类: /categories/ || fas fa-folder-open
+
+# Code block settings
+highlight_theme: light # darker / pale night / light / ocean / false
+
+# Social links
+social:
+  fab fa-github: https://github.com/jdy || Github
+
+# Avatar settings
+avatar:
+  img: /img/touxiang.jpg
+  effect: false
+
+# Site favicon
+favicon: /img/favicon.png
+
+# Top image (banner)
+disable_top_img: false
+index_img: '/img/top-banner.jpg'
+
+# 其他页面顶部图片
+archive_img: '/img/top-banner.jpg'
+tag_img: '/img/top-banner.jpg'
+category_img: '/img/top-banner.jpg'
+default_top_img: '/img/top-banner.jpg'
+
+# Footer Background
+footer_bg: false
+
+# 背景图片
+background: '/img/top-banner.jpg'
+
+# Post cover
+cover:
+  index_enable: true
+  aside_enable: true
+  archives_enable: true
+  default_cover: false
+
+# Post meta (date, categories, tags, etc.)
+post_meta:
+  page:
+    date_type: created
+    date_format: date
+    categories: true
+    tags: false
+  post:
+    date_type: both
+    date_format: date
+    categories: true
+    tags: true
+    label: true
+
+# Word count
+wordcount: true
+
+# Busuanzi site statistics
+busuanzi:
+  site_uv: true
+  site_pv: true
+  page_pv: true
+
+# Reward
+reward:
+  enable: false
+  QR_code:
+    - img: /img/wechat.jpg
+      link:
+      text: wechat
+    - img: /img/alipay.jpg
+      link:
+      text: alipay
+
+# Footer settings
+footer:
+  owner:
+    enable: true
+    since: 2026
+  custom_text:
+  copyright: true
+
+# Copy settings (复制设置)
+copy:
+  enable: true
+  copyright:
+    enable: true
+    limit_count: 50
