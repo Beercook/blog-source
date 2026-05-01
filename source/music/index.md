@@ -14,6 +14,12 @@ top_img: /img/top-banner.jpg
 
 ## 🎼 推荐歌曲
 
+### 金斧子银斧子 - 薛之谦
+
+{% aplayer "金斧子银斧子" "薛之谦" "/music/audio/jinfuzi.mp3" "/music/covers/jinfuzi.jpg" "lrc:/music/lrc/jinfuzi.lrc" %}
+
+---
+
 ### 晴天 - 周杰伦
 
 {% aplayer "晴天" "周杰伦" "/music/audio/qingtian.mp3" "/music/covers/jay-chou.jpg" "lrc:/music/lrc/qingtian.lrc" %}
@@ -64,34 +70,34 @@ https://music.163.com/#/playlist?id=705123491
 
 ### 方式一：本地音频文件
 
-```markdown
+````
 {% aplayer "歌曲名" "歌手名" "音频文件路径" "封面图片路径" %}
 ```
 
 示例：
-```markdown
+```
 {% aplayer "晴天" "周杰伦" "/music/audio/qingtian.mp3" "/music/covers/jay.jpg" %}
 ```
 
 ### 方式二：带歌词
 
-```markdown
+```
 {% aplayer "歌曲名" "歌手名" "音频路径" "封面路径" "lrc:歌词文件路径" %}
 ```
 
 示例：
-```markdown
+```
 {% aplayer "晴天" "周杰伦" "/music/audio/qingtian.mp3" "/music/covers/jay.jpg" "lrc:/music/lrc/qingtian.lrc" %}
 ```
 
 ### 方式三：网易云音乐外链
 
-```markdown
+```
 {% meting "song" "netease" "歌曲ID" "theme:#ad7a86" %}
 ```
 
 示例：
-```markdown
+```
 {% meting "song" "netease" "186016" "theme:#ad7a86" %}
 ```
 
