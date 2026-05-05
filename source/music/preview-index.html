@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音乐界面优化方案预览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        .schemes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .scheme-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .scheme-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+        }
+
+        .card-preview {
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-preview.scheme1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .card-preview.scheme2 {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .card-preview.scheme3 {
+            background: #0a0e27;
+        }
+
+        .card-preview.scheme4 {
+            background: linear-gradient(135deg, #2c1810 0%, #1a0f0a 100%);
+        }
+
+        .preview-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5em;
+            opacity: 0.3;
+        }
+
+        .card-content {
+            padding: 30px;
+        }
+
+        .card-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.8em;
+            color: #2d3436;
+            margin-bottom: 15px;
+        }
+
+        .card-description {
+            color: #636e72;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features li {
+            padding: 8px 0;
+            color: #2d3436;
+            font-size: 0.95em;
+        }
+
+        .features li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .view-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .scheme-card:hover .view-btn {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            margin-bottom: 40px;
+        }
+
+        .comparison-table h2 {
+            font-size: 2em;
+            color: #2d3436;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: bold;
+        }
+
+        th:first-child {
+            border-radius: 10px 0 0 0;
+        }
+
+        th:last-child {
+            border-radius: 0 10px 0 0;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .rating {
+            color: #ffd700;
+            font-size: 1.2em;
+        }
+
+        .note-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .note-section h2 {
+            font-size: 2em;
+            color: #2d3436;
+            margin-bottom: 20px;
+        }
+
+        .note-section p {
+            color: #636e72;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .schemes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 0.9em;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎵 音乐界面优化方案</h1>
+            <p class="subtitle">选择最适合你的音乐播放体验</p>
+        </header>
+
+        <div class="schemes-grid">
+            <a href="preview-scheme1.html" class="scheme-card" target="_blank">
+                <div class="card-preview scheme1">
+                    <div class="preview-icon">💿</div>
+                </div>
+                <div class="card-content">
+                    <span class="card-number">方案一</span>
+                    <h3 class="card-title">沉浸式唱片风格</h3>
+                    <p class="card-description">
+                        简约优雅的旋转唱片设计，专注听歌体验
+                    </p>
+                    <ul class="features">
+                        <li>旋转唱片动画效果</li>
+                        <li>渐变背景 + 毛玻璃</li>
+                        <li><strong>实时滚动歌词显示</strong></li>
+                        <li>底部歌曲列表</li>
+                    </ul>
+                    <span class="view-btn">查看预览 →</span>
+                </div>
+            </a>
+
+            <a href="preview-scheme2.html" class="scheme-card" target="_blank">
+                <div class="card-preview scheme2">
+                    <div class="preview-icon">📋</div>
+                </div>
+                <div class="card-content">
+                    <span class="card-number">方案二</span>
+                    <h3 class="card-title">卡片式列表风格</h3>
+                    <p class="card-description">
+                        网格卡片布局，快速浏览和选择歌曲
+                    </p>
+                    <ul class="features">
+                        <li>精美卡片网格布局</li>
+                        <li>悬停放大动效</li>
+                        <li><strong>侧滑歌词面板</strong></li>
+                        <li>响应式设计</li>
+                    </ul>
+                    <span class="view-btn">查看预览 →</span>
+                </div>
+            </a>
+
+            <a href="preview-scheme3.html" class="scheme-card" target="_blank">
+                <div class="card-preview scheme3">
+                    <div class="preview-icon">🌊</div>
+                </div>
+                <div class="card-content">
+                    <span class="card-number">方案三</span>
+                    <h3 class="card-title">可视化波形风格</h3>
+                    <p class="card-description">
+                        炫酷音频频谱可视化，科技感十足
+                    </p>
+                    <ul class="features">
+                        <li>实时音频频谱动画</li>
+                        <li>深色科技风主题</li>
+                        <li><strong>歌词同步高亮滚动</strong></li>
+                        <li>侧边栏播放列表</li>
+                    </ul>
+                    <span class="view-btn">查看预览 →</span>
+                </div>
+            </a>
+
+            <a href="preview-scheme4.html" class="scheme-card" target="_blank">
+                <div class="card-preview scheme4">
+                    <div class="preview-icon">🎼</div>
+                </div>
+                <div class="card-content">
+                    <span class="card-number">方案四</span>
+                    <h3 class="card-title">黑胶唱片机风格</h3>
+                    <p class="card-description">
+                        复古黑胶唱机设计，奢华金色配色
+                    </p>
+                    <ul class="features">
+                        <li>仿真唱片机设计</li>
+                        <li>唱针机械臂动画</li>
+                        <li><strong>复古风格歌词展示</strong></li>
+                        <li>金色奢华配色</li>
+                    </ul>
+                    <span class="view-btn">查看预览 →</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="comparison-table">
+            <h2>📊 方案对比表</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>特性</th>
+                        <th>方案一</th>
+                        <th>方案二</th>
+                        <th>方案三</th>
+                        <th>方案四</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>视觉复杂度</strong></td>
+                        <td>⭐⭐</td>
+                        <td>⭐⭐⭐</td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>⭐⭐⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td><strong>适合场景</strong></td>
+                        <td>专注听歌</td>
+                        <td>歌曲较多</td>
+                        <td>炫酷展示</td>
+                        <td>复古情怀</td>
+                    </tr>
+                    <tr>
+                        <td><strong>移动端适配</strong></td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>⭐⭐⭐⭐⭐</td>
+                        <td>⭐⭐⭐⭐</td>
+                        <td>⭐⭐⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td><strong>实现难度</strong></td>
+                        <td>简单</td>
+                        <td>中等</td>
+                        <td>较难</td>
+                        <td>中等</td>
+                    </tr>
+                    <tr>
+                        <td><strong>推荐指数</strong></td>
+                        <td class="rating">⭐⭐⭐⭐</td>
+                        <td class="rating">⭐⭐⭐⭐⭐</td>
+                        <td class="rating">⭐⭐⭐⭐</td>
+                        <td class="rating">⭐⭐⭐⭐</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="note-section">
+            <h2>💡 如何选择？</h2>
+            <p>
+                <span class="highlight">方案一（沉浸式唱片）</span>：如果你喜欢简约设计，专注于音乐本身，这个方案最合适。旋转的唱片动画带来沉浸式的听歌体验，<strong>歌词在播放器下方实时滚动显示</strong>。
+            </p>
+            <p>
+                <span class="highlight">方案二（卡片式列表）</span>：如果你的歌曲数量较多，需要快速浏览和切换，这是最佳选择。网格布局清晰直观，底部播放栏随时可控，<strong>点击右下角按钮可展开侧滑歌词面板</strong>。
+            </p>
+            <p>
+                <span class="highlight">方案三（可视化波形）</span>：如果你追求炫酷的视觉效果，喜欢科技感，这个方案会让你眼前一亮。实时音频频谱动画非常震撼，<strong>歌词区域同步高亮当前演唱行</strong>。
+            </p>
+            <p>
+                <span class="highlight">方案四（黑胶唱片机）</span>：如果你有复古情怀，喜欢有格调的设计，这个方案完美契合。仿真唱片机细节丰富，质感十足，<strong>歌词以优雅的金色字体展示</strong>。
+            </p>
+            <p style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #f0f0f0;">
+                <strong>我的建议：</strong>根据你的需求，我推荐 <span class="highlight">方案二（卡片式列表）</span>，因为它在美观性、实用性和易用性之间取得了最好的平衡，适合大多数用户场景。<strong>所有方案都完整支持LRC歌词同步显示功能</strong>。
+            </p>
+        </div>
+    </div>
+</body>
+</html>

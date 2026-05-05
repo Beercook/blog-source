@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>方案四：黑胶唱片机风格</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #2c1810 0%, #1a0f0a 100%);
+            min-height: 100vh;
+            color: #f4e4d4;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #d4af37;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #b8956a;
+            font-style: italic;
+        }
+
+        .turntable-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .turntable {
+            width: 500px;
+            height: 400px;
+            background: linear-gradient(145deg, #8b4513 0%, #654321 100%);
+            border-radius: 20px;
+            box-shadow: 
+                0 20px 60px rgba(0,0,0,0.5),
+                inset 0 2px 10px rgba(255,255,255,0.1);
+            position: relative;
+            padding: 40px;
+        }
+
+        .turntable::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            background: linear-gradient(145deg, #a0522d 0%, #8b4513 100%);
+            border-radius: 15px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .platter {
+            position: absolute;
+            top: 50%;
+            left: 40%;
+            transform: translate(-50%, -50%);
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #1a1a1a 15%, #2d2d2d 15%, #2d2d2d 100%);
+            border-radius: 50%;
+            box-shadow: 
+                0 0 30px rgba(0,0,0,0.5),
+                inset 0 0 20px rgba(255,255,255,0.05);
+            animation: spin 3s linear infinite;
+            animation-play-state: paused;
+        }
+
+        .platter.playing {
+            animation-play-state: running;
+        }
+
+        @keyframes spin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .vinyl-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d4af37 0%, #b8956a 100%);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+            text-align: center;
+            color: #2c1810;
+            font-weight: bold;
+        }
+
+        .tonearm {
+            position: absolute;
+            top: 10%;
+            right: 15%;
+            width: 150px;
+            height: 20px;
+            background: linear-gradient(90deg, #c0c0c0 0%, #808080 100%);
+            border-radius: 10px;
+            transform-origin: right center;
+            transform: rotate(-30deg);
+            transition: transform 0.5s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .tonearm.playing {
+            transform: rotate(15deg);
+        }
+
+        .tonearm::after {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background: #d4af37;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        .song-info-panel {
+            position: absolute;
+            top: 50%;
+            right: 5%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.3);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            min-width: 250px;
+        }
+
+        .song-title {
+            font-size: 1.8em;
+            color: #d4af37;
+            margin-bottom: 10px;
+        }
+
+        .song-artist {
+            font-size: 1.2em;
+            color: #b8956a;
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .control-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #d4af37 0%, #b8956a 100%);
+            border: none;
+            color: #2c1810;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .control-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.5);
+        }
+
+        .control-btn.play {
+            width: 60px;
+            height: 60px;
+            font-size: 2em;
+        }
+
+        .progress-section {
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 35%;
+            background: linear-gradient(90deg, #d4af37 0%, #b8956a 100%);
+            border-radius: 3px;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.9em;
+            color: #b8956a;
+        }
+
+        .playlist-section {
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .playlist-header {
+            font-size: 2em;
+            color: #d4af37;
+            margin-bottom: 30px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .playlist-item {
+            padding: 20px;
+            margin-bottom: 15px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border: 1px solid transparent;
+        }
+
+        .playlist-item:hover {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: rgba(212, 175, 55, 0.5);
+            transform: translateX(10px);
+        }
+
+        .playlist-item.active {
+            background: rgba(212, 175, 55, 0.3);
+            border-color: #d4af37;
+        }
+
+        .playlist-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #d4af37 0%, #b8956a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #2c1810;
+            font-size: 1.1em;
+        }
+
+        .playlist-info {
+            flex: 1;
+        }
+
+        .playlist-title {
+            font-size: 1.3em;
+            color: #f4e4d4;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .playlist-artist {
+            font-size: 1em;
+            color: #b8956a;
+        }
+
+        .playlist-duration {
+            font-size: 1.1em;
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+        .lyrics-section {
+            margin-top: 40px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .lyrics-header {
+            font-size: 1.5em;
+            color: #d4af37;
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .lyrics-content {
+            max-height: 350px;
+            overflow-y: auto;
+            line-height: 2.5;
+        }
+
+        .lyric-line {
+            padding: 10px 20px;
+            text-align: center;
+            color: #b8956a;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .lyric-line.active {
+            color: #d4af37;
+            font-weight: bold;
+            font-size: 1.15em;
+            background: rgba(212, 175, 55, 0.2);
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        }
+
+        .lyrics-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .lyrics-content::-webkit-scrollbar-track {
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 3px;
+        }
+
+        .lyrics-content::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.5);
+            border-radius: 3px;
+        }
+
+        .note {
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .note h3 {
+            font-size: 1.5em;
+            color: #d4af37;
+            margin-bottom: 15px;
+        }
+
+        .note ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .note li {
+            padding: 10px 0;
+            color: #b8956a;
+            line-height: 1.8;
+        }
+
+        .note li:before {
+            content: "✦ ";
+            color: #d4af37;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        @media (max-width: 1024px) {
+            .turntable {
+                width: 100%;
+                max-width: 500px;
+            }
+
+            .song-info-panel {
+                position: static;
+                transform: none;
+                margin-top: 30px;
+            }
+
+            .turntable-section {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .turntable {
+                padding: 30px;
+            }
+
+            .platter {
+                width: 220px;
+                height: 220px;
+            }
+
+            .playlist-item {
+                flex-wrap: wrap;
+            }
+
+            .playlist-duration {
+                width: 100%;
+                text-align: right;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎵 我的私人曲库</h1>
+            <p class="subtitle">复古黑胶唱片机体验</p>
+        </header>
+
+        <div class="turntable-section">
+            <div class="turntable">
+                <div class="platter" id="platter">
+                    <div class="vinyl-label">金斧子银斧子</div>
+                </div>
+                <div class="tonearm" id="tonearm"></div>
+            </div>
+
+            <div class="song-info-panel">
+                <div class="song-title">金斧子银斧子</div>
+                <div class="song-artist">薛之谦</div>
+                
+                <div class="progress-section">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div class="time-display">
+                        <span>1:23</span>
+                        <span>4:15</span>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="control-btn">⏮</button>
+                    <button class="control-btn play" onclick="togglePlay()">▶</button>
+                    <button class="control-btn">⏭</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="playlist-section">
+            <div class="lyrics-section">
+                <div class="lyrics-header">📝 歌词</div>
+                <div class="lyrics-content" id="lyricsContent">
+                    <div class="lyric-line active">王位 - 杨和苏KeyNG</div>
+                    <div class="lyric-line">词：杨和苏KeyNG</div>
+                    <div class="lyric-line">曲：杨和苏KeyNG</div>
+                    <div class="lyric-line">编曲：Mai "No Label Crew"/Mark Goble Music</div>
+                    <div class="lyric-line">...</div>
+                    <div class="lyric-line">（播放时歌词会同步高亮滚动）</div>
+                </div>
+            </div>
+
+            <div class="playlist-header" style="margin-top: 40px;">📋 播放列表</div>
+            
+            <div class="playlist-item active" onclick="playSong(this)">
+                <div class="playlist-number">01</div>
+                <div class="playlist-info">
+                    <div class="playlist-title">金斧子银斧子</div>
+                    <div class="playlist-artist">薛之谦</div>
+                </div>
+                <div class="playlist-duration">4:15</div>
+            </div>
+
+            <div class="playlist-item" onclick="playSong(this)">
+                <div class="playlist-number">02</div>
+                <div class="playlist-info">
+                    <div class="playlist-title">于是</div>
+                    <div class="playlist-artist">邓紫棋</div>
+                </div>
+                <div class="playlist-duration">3:42</div>
+            </div>
+
+            <div class="playlist-item" onclick="playSong(this)">
+                <div class="playlist-number">03</div>
+                <div class="playlist-info">
+                    <div class="playlist-title">王位</div>
+                    <div class="playlist-artist">杨和苏</div>
+                </div>
+                <div class="playlist-duration">3:58</div>
+            </div>
+
+            <div class="playlist-item" onclick="playSong(this)">
+                <div class="playlist-number">04</div>
+                <div class="playlist-info">
+                    <div class="playlist-title">示例歌曲4</div>
+                    <div class="playlist-artist">歌手名</div>
+                </div>
+                <div class="playlist-duration">4:30</div>
+            </div>
+        </div>
+
+        <div class="note">
+            <h3>💡 特点说明：</h3>
+            <ul>
+                <li>仿真黑胶唱片机设计，木质纹理背景</li>
+                <li>唱片旋转动画 + 唱针机械臂移动</li>
+                <li>金色奢华配色，复古情怀满满</li>
+                <li>右侧信息面板，清晰展示歌曲信息</li>
+                <li>适合喜欢复古风格、有格调的用户</li>
+                <li>细节丰富，视觉层次分明</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let isPlaying = false;
+        const platter = document.getElementById('platter');
+        const tonearm = document.getElementById('tonearm');
+
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            const playBtn = document.querySelector('.control-btn.play');
+            
+            if (isPlaying) {
+                platter.classList.add('playing');
+                tonearm.classList.add('playing');
+                playBtn.textContent = '⏸';
+            } else {
+                platter.classList.remove('playing');
+                tonearm.classList.remove('playing');
+                playBtn.textContent = '▶';
+            }
+        }
+
+        function playSong(item) {
+            // 移除所有项的active状态
+            document.querySelectorAll('.playlist-item').forEach(i => {
+                i.classList.remove('active');
+            });
+            // 添加当前项的active状态
+            item.classList.add('active');
+            
+            // 更新歌曲信息
+            const title = item.querySelector('.playlist-title').textContent;
+            const artist = item.querySelector('.playlist-artist').textContent;
+            document.querySelector('.song-title').textContent = title;
+            document.querySelector('.song-artist').textContent = artist;
+            document.querySelector('.vinyl-label').textContent = title;
+        }
+    </script>
+</body>
+</html>

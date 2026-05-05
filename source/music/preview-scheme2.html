@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>方案二：卡片式列表风格</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #2d3436;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #636e72;
+        }
+
+        .music-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .music-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .music-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        .music-card.playing {
+            border: 3px solid #667eea;
+        }
+
+        .card-cover {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .music-card:hover .card-cover img {
+            transform: scale(1.1);
+        }
+
+        .play-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .music-card:hover .play-overlay {
+            opacity: 1;
+        }
+
+        .play-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            font-size: 2em;
+            color: #667eea;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .card-info {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.3em;
+            color: #2d3436;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .card-artist {
+            font-size: 1em;
+            color: #636e72;
+            margin-bottom: 15px;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+            color: #b2bec3;
+        }
+
+        .duration {
+            background: #f0f0f0;
+            padding: 4px 12px;
+            border-radius: 15px;
+        }
+
+        .now-playing-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -5px 30px rgba(0,0,0,0.1);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .np-cover {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .np-info {
+            flex: 1;
+        }
+
+        .np-title {
+            font-weight: bold;
+            color: #2d3436;
+            margin-bottom: 5px;
+        }
+
+        .np-artist {
+            color: #636e72;
+            font-size: 0.9em;
+        }
+
+        .np-controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .np-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            border: none;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .np-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .np-btn.play {
+            background: #667eea;
+            color: white;
+            width: 55px;
+            height: 55px;
+            font-size: 1.5em;
+        }
+
+        .progress-container {
+            flex: 2;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 6px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 35%;
+            background: #667eea;
+            border-radius: 3px;
+        }
+
+        .time {
+            font-size: 0.9em;
+            color: #636e72;
+            min-width: 45px;
+        }
+
+        .note {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .note h3 {
+            color: #2d3436;
+            margin-bottom: 15px;
+        }
+
+        .note ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .note li {
+            padding: 8px 0;
+            color: #636e72;
+            line-height: 1.6;
+        }
+
+        .note li:before {
+            content: "• ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .lyrics-panel {
+            position: fixed;
+            right: -400px;
+            top: 0;
+            width: 400px;
+            height: 100vh;
+            background: rgba(255,255,255,0.95);
+            box-shadow: -5px 0 30px rgba(0,0,0,0.2);
+            transition: right 0.3s ease;
+            z-index: 2000;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .lyrics-panel.show {
+            right: 0;
+        }
+
+        .lyrics-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .lyrics-header h3 {
+            font-size: 1.5em;
+            color: #2d3436;
+        }
+
+        .close-lyrics {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-lyrics:hover {
+            background: #e0e0e0;
+            transform: rotate(90deg);
+        }
+
+        .lyrics-content {
+            line-height: 2.5;
+        }
+
+        .lyric-line {
+            padding: 10px 15px;
+            color: #636e72;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .lyric-line.active {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.1em;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .lyrics-toggle {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1500;
+        }
+
+        .lyrics-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .music-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .now-playing-bar {
+                flex-wrap: wrap;
+                padding: 15px;
+            }
+
+            .progress-container {
+                order: 3;
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .lyrics-panel {
+                width: 100%;
+                right: -100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎵 我的私人曲库</h1>
+            <p class="subtitle">卡片式音乐浏览体验</p>
+        </header>
+
+        <div class="music-grid">
+            <div class="music-card playing" onclick="playSong(this)">
+                <div class="card-cover">
+                    <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 280 280'><rect fill='%23ff6b6b' width='280' height='280'/><text x='140' y='150' text-anchor='middle' fill='white' font-size='20'>金斧子银斧子</text></svg>" alt="cover">
+                    <div class="play-overlay">
+                        <button class="play-btn">▶</button>
+                    </div>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">金斧子银斧子</div>
+                    <div class="card-artist">薛之谦</div>
+                    <div class="card-meta">
+                        <span class="duration">4:15</span>
+                        <span>❤️ 收藏</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="music-card" onclick="playSong(this)">
+                <div class="card-cover">
+                    <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 280 280'><rect fill='%234ecdc4' width='280' height='280'/><text x='140' y='150' text-anchor='middle' fill='white' font-size='20'>于是</text></svg>" alt="cover">
+                    <div class="play-overlay">
+                        <button class="play-btn">▶</button>
+                    </div>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">于是</div>
+                    <div class="card-artist">邓紫棋</div>
+                    <div class="card-meta">
+                        <span class="duration">3:42</span>
+                        <span>❤️ 收藏</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="music-card" onclick="playSong(this)">
+                <div class="card-cover">
+                    <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 280 280'><rect fill='%23ffe66d' width='280' height='280'/><text x='140' y='150' text-anchor='middle' fill='white' font-size='20'>王位</text></svg>" alt="cover">
+                    <div class="play-overlay">
+                        <button class="play-btn">▶</button>
+                    </div>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">王位</div>
+                    <div class="card-artist">杨和苏</div>
+                    <div class="card-meta">
+                        <span class="duration">3:58</span>
+                        <span>❤️ 收藏</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="music-card" onclick="playSong(this)">
+                <div class="card-cover">
+                    <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 280 280'><rect fill='%23a8e6cf' width='280' height='280'/><text x='140' y='150' text-anchor='middle' fill='white' font-size='20'>更多歌曲</text></svg>" alt="cover">
+                    <div class="play-overlay">
+                        <button class="play-btn">▶</button>
+                    </div>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">示例歌曲4</div>
+                    <div class="card-artist">歌手名</div>
+                    <div class="card-meta">
+                        <span class="duration">4:30</span>
+                        <span>❤️ 收藏</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="note">
+            <h3>💡 特点说明：</h3>
+            <ul>
+                <li>网格卡片布局，视觉冲击力强</li>
+                <li>悬停放大效果 + 播放按钮遮罩</li>
+                <li>底部固定播放控制栏，随时切换歌曲</li>
+                <li>响应式设计，移动端自动适配</li>
+                <li>适合歌曲数量较多的场景</li>
+            </ul>
+        </div>
+    </div>
+
+    <button class="lyrics-toggle" onclick="toggleLyrics()">📝</button>
+
+    <div class="lyrics-panel" id="lyricsPanel">
+        <div class="lyrics-header">
+            <h3>📝 歌词</h3>
+            <button class="close-lyrics" onclick="toggleLyrics()">×</button>
+        </div>
+        <div class="lyrics-content" id="lyricsContent">
+            <div class="lyric-line active">王位 - 杨和苏KeyNG</div>
+            <div class="lyric-line">词：杨和苏KeyNG</div>
+            <div class="lyric-line">曲：杨和苏KeyNG</div>
+            <div class="lyric-line">编曲：Mai "No Label Crew"/Mark Goble Music</div>
+            <div class="lyric-line">...</div>
+            <div class="lyric-line">（点击右下角按钮查看歌词）</div>
+        </div>
+    </div>
+
+    <script>
+        function toggleLyrics() {
+            const panel = document.getElementById('lyricsPanel');
+            panel.classList.toggle('show');
+        }
+
+        function playSong(card) {
+            // 移除所有卡片的playing状态
+            document.querySelectorAll('.music-card').forEach(c => {
+                c.classList.remove('playing');
+            });
+            // 添加当前卡片的playing状态
+            card.classList.add('playing');
+            
+            // 更新底部播放栏信息
+            const title = card.querySelector('.card-title').textContent;
+            const artist = card.querySelector('.card-artist').textContent;
+            document.querySelector('.np-title').textContent = title;
+            document.querySelector('.np-artist').textContent = artist;
+        }
+    </script>
+</body>
+</html>
