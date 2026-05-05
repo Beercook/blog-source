@@ -1,13 +1,14 @@
-// 网易云音乐风格 - 音乐播放器功能
+// 网易云音乐风格 - 音乐播放器功能（优化版）
 
 class MusicPlayer {
     constructor() {
         this.isPlaying = false;
         this.currentSongIndex = 0;
         this.lyrics = [];
-        this.currentLyricIndex = 0;
+        this.currentLyricIndex = -1;
+        this.isLoaded = false;
         
-        // 歌曲列表
+        // 歌曲列表 - 使用正确的路径
         this.songs = [
             {
                 title: '王位',
@@ -36,6 +37,8 @@ class MusicPlayer {
         ];
         
         this.audio = new Audio();
+        this.audio.preload = 'auto'; // 预加载音频
+        
         this.initElements();
         this.bindEvents();
         this.loadSong(0);
@@ -57,38 +60,62 @@ class MusicPlayer {
     
     bindEvents() {
         // 播放/暂停按钮
-        this.playBtn.addEventListener('click', () => this.togglePlay());
+        if (this.playBtn) {
+            this.playBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.togglePlay();
+            });
+        }
         
         // 音频事件
         this.audio.addEventListener('timeupdate', () => this.updateProgress());
         this.audio.addEventListener('ended', () => this.nextSong());
         this.audio.addEventListener('loadedmetadata', () => {
             this.totalTimeEl.textContent = this.formatTime(this.audio.duration);
+            this.isLoaded = true;
+        });
+        
+        this.audio.addEventListener('canplaythrough', () => {
+            console.log('音频可以流畅播放');
+        });
+        
+        this.audio.addEventListener('error', (e) => {
+            console.error('音频加载错误:', e);
+            alert('音频加载失败，请检查文件路径');
         });
         
         // 进度条点击
-        document.querySelector('.progress-bar').addEventListener('click', (e) => this.seek(e));
-        
-        // 上一首/下一首
-        document.querySelector('.control-btn[onclick="prevSong()"]').addEventListener('click', () => this.prevSong());
-        document.querySelector('.control-btn[onclick="nextSong()"]').addEventListener('click', () => this.nextSong());
+        const progressBar = document.querySelector('.progress-bar');
+        if (progressBar) {
+            progressBar.addEventListener('click', (e) => this.seek(e));
+        }
     }
     
     async loadSong(index) {
+        console.log('加载歌曲:', index);
         this.currentSongIndex = index;
         const song = this.songs[index];
         
         // 更新歌曲信息
         this.songTitleEl.textContent = song.title;
         this.songArtistEl.textContent = song.artist;
-        this.totalTimeEl.textContent = song.duration;
         
         // 更新封面
-        this.discCoverEl.style.backgroundImage = `url(${song.cover})`;
-        this.discCoverEl.style.backgroundSize = 'cover';
+        if (this.discCoverEl) {
+            this.discCoverEl.style.backgroundImage = `url(${song.cover})`;
+            this.discCoverEl.style.backgroundSize = 'cover';
+            this.discCoverEl.style.backgroundPosition = 'center';
+        }
         
-        // 加载音频
+        // 停止当前播放
+        this.audio.pause();
+        this.audio.currentTime = 0;
+        this.isPlaying = false;
+        this.updatePlayButton();
+        
+        // 加载新音频
         this.audio.src = song.url;
+        this.audio.load();
         
         // 加载歌词
         await this.loadLyrics(song.lrc);
@@ -99,17 +126,26 @@ class MusicPlayer {
         // 重置进度
         this.progressFill.style.width = '0%';
         this.currentTimeEl.textContent = '0:00';
+        this.totalTimeEl.textContent = song.duration;
+        
+        console.log('歌曲加载完成，准备播放');
     }
     
     async loadLyrics(lrcUrl) {
         try {
+            console.log('加载歌词:', lrcUrl);
             const response = await fetch(lrcUrl);
+            if (!response.ok) {
+                throw new Error('歌词文件不存在');
+            }
             const lrcText = await response.text();
             this.lyrics = this.parseLyrics(lrcText);
             this.renderLyrics();
+            console.log('歌词加载成功，共', this.lyrics.length, '行');
         } catch (error) {
             console.error('加载歌词失败:', error);
             this.lyrics = [];
+            this.lyricsContent.innerHTML = '<div class="lyric-line active">暂无歌词</div>';
         }
     }
     
@@ -122,7 +158,7 @@ class MusicPlayer {
             if (match) {
                 const minutes = parseInt(match[1]);
                 const seconds = parseInt(match[2]);
-                const milliseconds = parseInt(match[3]);
+                const milliseconds = parseInt(match[3].padEnd(3, '0'));
                 const time = minutes * 60 + seconds + milliseconds / 1000;
                 const text = match[4].trim();
                 
@@ -132,7 +168,7 @@ class MusicPlayer {
             }
         });
         
-        return lyrics;
+        return lyrics.sort((a, b) => a.time - b.time);
     }
     
     renderLyrics() {
@@ -154,6 +190,13 @@ class MusicPlayer {
     }
     
     togglePlay() {
+        console.log('切换播放状态，当前:', this.isPlaying);
+        
+        if (!this.isLoaded) {
+            console.log('音频未加载完成，等待...');
+            return;
+        }
+        
         if (this.isPlaying) {
             this.pause();
         } else {
@@ -162,26 +205,48 @@ class MusicPlayer {
     }
     
     play() {
-        this.audio.play();
-        this.isPlaying = true;
-        this.vinylDisc.classList.add('playing');
-        this.needleArm.classList.add('playing');
-        this.playBtn.textContent = '⏸';
+        console.log('开始播放');
+        const playPromise = this.audio.play();
+        
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                this.isPlaying = true;
+                this.updatePlayButton();
+                console.log('播放成功');
+            }).catch(error => {
+                console.error('播放失败:', error);
+                alert('播放失败，请重试');
+            });
+        }
     }
     
     pause() {
+        console.log('暂停播放');
         this.audio.pause();
         this.isPlaying = false;
-        this.vinylDisc.classList.remove('playing');
-        this.needleArm.classList.remove('playing');
-        this.playBtn.textContent = '▶';
+        this.updatePlayButton();
+        console.log('暂停成功');
+    }
+    
+    updatePlayButton() {
+        if (this.playBtn) {
+            this.playBtn.textContent = this.isPlaying ? '⏸' : '▶';
+        }
+        
+        if (this.isPlaying) {
+            this.vinylDisc.classList.add('playing');
+            this.needleArm.classList.add('playing');
+        } else {
+            this.vinylDisc.classList.remove('playing');
+            this.needleArm.classList.remove('playing');
+        }
     }
     
     updateProgress() {
         const current = this.audio.currentTime;
         const duration = this.audio.duration;
         
-        if (duration) {
+        if (duration && !isNaN(duration)) {
             const percent = (current / duration) * 100;
             this.progressFill.style.width = percent + '%';
             this.currentTimeEl.textContent = this.formatTime(current);
@@ -192,6 +257,8 @@ class MusicPlayer {
     }
     
     updateLyricHighlight(currentTime) {
+        if (this.lyrics.length === 0) return;
+        
         let activeIndex = 0;
         
         for (let i = 0; i < this.lyrics.length; i++) {
@@ -213,7 +280,7 @@ class MusicPlayer {
             if (allLines[activeIndex]) {
                 allLines[activeIndex].classList.add('active');
                 
-                // 滚动到当前行
+                // 平滑滚动到当前行
                 allLines[activeIndex].scrollIntoView({
                     behavior: 'smooth',
                     block: 'center'
@@ -224,11 +291,12 @@ class MusicPlayer {
     
     seek(event) {
         const progressBar = event.currentTarget;
-        const clickX = event.offsetX;
-        const width = progressBar.offsetWidth;
+        const rect = progressBar.getBoundingClientRect();
+        const clickX = event.clientX - rect.left;
+        const width = rect.width;
         const percent = clickX / width;
         
-        if (this.audio.duration) {
+        if (this.audio.duration && !isNaN(this.audio.duration)) {
             this.audio.currentTime = percent * this.audio.duration;
         }
     }
@@ -248,9 +316,6 @@ class MusicPlayer {
             newIndex = this.songs.length - 1;
         }
         this.loadSong(newIndex);
-        if (this.isPlaying) {
-            this.play();
-        }
     }
     
     nextSong() {
@@ -259,9 +324,6 @@ class MusicPlayer {
             newIndex = 0;
         }
         this.loadSong(newIndex);
-        if (this.isPlaying) {
-            this.play();
-        }
     }
     
     updatePlaylistActive(index) {
@@ -287,7 +349,7 @@ class MusicPlayer {
     }
     
     formatTime(seconds) {
-        if (isNaN(seconds)) return '0:00';
+        if (isNaN(seconds) || seconds === null || seconds === undefined) return '0:00';
         
         const mins = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
@@ -297,6 +359,7 @@ class MusicPlayer {
 
 // 页面加载完成后初始化播放器
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM加载完成，初始化播放器');
     window.musicPlayer = new MusicPlayer();
 });
 
@@ -324,7 +387,10 @@ function playSong(element, title, artist) {
         const index = Array.from(document.querySelectorAll('.playlist-item')).indexOf(element);
         if (index !== -1) {
             window.musicPlayer.loadSong(index);
-            window.musicPlayer.play();
+            // 延迟一下再播放，确保音频加载完成
+            setTimeout(() => {
+                window.musicPlayer.play();
+            }, 500);
         }
     }
 }
@@ -332,5 +398,19 @@ function playSong(element, title, artist) {
 function seek(event) {
     if (window.musicPlayer) {
         window.musicPlayer.seek(event);
+    }
+}
+
+// 全屏功能
+function toggleFullscreen() {
+    const lyricsSection = document.querySelector('.lyrics-section');
+    if (lyricsSection) {
+        if (!document.fullscreenElement) {
+            lyricsSection.requestFullscreen().catch(err => {
+                console.error('全屏失败:', err);
+            });
+        } else {
+            document.exitFullscreen();
+        }
     }
 }

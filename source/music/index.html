@@ -5,10 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的音乐 - 金东岩的博客</title>
     <link rel="stylesheet" href="/css/music-netease.css">
+    <style>
+        /* 继承博客主题背景 */
+        body {
+            background: inherit !important;
+        }
+        
+        .music-page-container {
+            background: transparent !important;
+        }
+        
+        .bg-blur {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <div class="bg-blur"></div>
-    
     <div class="music-page-container">
         <div class="music-content-wrapper">
             <!-- 顶部导航 -->
@@ -60,19 +72,9 @@
 
                         <!-- 控制按钮 -->
                         <div class="control-buttons">
-                            <button class="control-btn" title="随机播放">🔀</button>
                             <button class="control-btn" onclick="prevSong()" title="上一首">⏮</button>
                             <button class="control-btn play" id="playBtn" onclick="togglePlay()" title="播放/暂停">▶</button>
                             <button class="control-btn" onclick="nextSong()" title="下一首">⏭</button>
-                            <button class="control-btn" title="循环模式">🔁</button>
-                        </div>
-
-                        <!-- 额外功能 -->
-                        <div class="extra-controls">
-                            <button class="extra-btn" title="喜欢">❤️</button>
-                            <button class="extra-btn" title="下载">⬇️</button>
-                            <button class="extra-btn" title="分享">📤</button>
-                            <button class="extra-btn" title="评论">💬</button>
                         </div>
                     </div>
                 </div>
@@ -82,8 +84,7 @@
                     <div class="lyrics-header">
                         <div class="lyrics-title">歌词</div>
                         <div class="lyrics-actions">
-                            <button class="lyrics-action-btn" title="翻译">译</button>
-                            <button class="lyrics-action-btn" title="全屏">⛶</button>
+                            <button class="lyrics-action-btn" onclick="toggleFullscreen()" title="全屏显示">⛶</button>
                         </div>
                     </div>
                     <div class="lyrics-content" id="lyricsContent">
@@ -98,9 +99,6 @@
                     <div class="playlist-title">
                         播放列表
                         <span class="playlist-count">3首</span>
-                    </div>
-                    <div class="playlist-actions">
-                        <button class="lyrics-action-btn" title="清空列表">🗑️</button>
                     </div>
                 </div>
                 <div class="playlist-grid">
