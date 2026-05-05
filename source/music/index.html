@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的音乐 - 金东岩的博客</title>
+    <link rel="stylesheet" href="/css/music-netease.css">
+</head>
+<body>
+    <div class="bg-blur"></div>
+    
+    <div class="music-page-container">
+        <div class="music-content-wrapper">
+            <!-- 顶部导航 -->
+            <div class="music-header">
+                <a href="/" class="back-btn">←</a>
+                <div class="page-title">正在播放</div>
+                <button class="more-btn">⋮</button>
+            </div>
+
+            <div class="music-main-content">
+                <!-- 左侧：播放器区 -->
+                <div class="player-section">
+                    <div class="disc-container">
+                        <!-- 唱针臂 -->
+                        <div class="needle-arm" id="needleArm">
+                            <div class="needle-base"></div>
+                            <div class="needle-stick">
+                                <div class="needle-head"></div>
+                            </div>
+                        </div>
+
+                        <!-- 黑胶唱片 -->
+                        <div class="vinyl-disc" id="vinylDisc">
+                            <div class="disc-cover"></div>
+                        </div>
+                    </div>
+
+                    <!-- 歌曲信息 -->
+                    <div class="song-info">
+                        <div class="song-title" id="songTitle">加载中...</div>
+                        <div class="song-artist">
+                            <span class="artist-icon">♫</span>
+                            <span id="songArtist">-</span>
+                        </div>
+                    </div>
+
+                    <!-- 控制区 -->
+                    <div class="controls-wrapper">
+                        <!-- 进度条 -->
+                        <div class="progress-section">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                            <div class="time-display">
+                                <span id="currentTime">0:00</span>
+                                <span id="totalTime">0:00</span>
+                            </div>
+                        </div>
+
+                        <!-- 控制按钮 -->
+                        <div class="control-buttons">
+                            <button class="control-btn" title="随机播放">🔀</button>
+                            <button class="control-btn" onclick="prevSong()" title="上一首">⏮</button>
+                            <button class="control-btn play" id="playBtn" onclick="togglePlay()" title="播放/暂停">▶</button>
+                            <button class="control-btn" onclick="nextSong()" title="下一首">⏭</button>
+                            <button class="control-btn" title="循环模式">🔁</button>
+                        </div>
+
+                        <!-- 额外功能 -->
+                        <div class="extra-controls">
+                            <button class="extra-btn" title="喜欢">❤️</button>
+                            <button class="extra-btn" title="下载">⬇️</button>
+                            <button class="extra-btn" title="分享">📤</button>
+                            <button class="extra-btn" title="评论">💬</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧：歌词区 -->
+                <div class="lyrics-section">
+                    <div class="lyrics-header">
+                        <div class="lyrics-title">歌词</div>
+                        <div class="lyrics-actions">
+                            <button class="lyrics-action-btn" title="翻译">译</button>
+                            <button class="lyrics-action-btn" title="全屏">⛶</button>
+                        </div>
+                    </div>
+                    <div class="lyrics-content" id="lyricsContent">
+                        <div class="lyric-line active">加载中...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 底部：播放列表 -->
+            <div class="playlist-section">
+                <div class="playlist-header">
+                    <div class="playlist-title">
+                        播放列表
+                        <span class="playlist-count">3首</span>
+                    </div>
+                    <div class="playlist-actions">
+                        <button class="lyrics-action-btn" title="清空列表">🗑️</button>
+                    </div>
+                </div>
+                <div class="playlist-grid">
+                    <div class="playlist-item" onclick="playSong(this, '王位', '杨和苏KeyNG')">
+                        <div class="playlist-cover" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                        <div class="playlist-info">
+                            <div class="playlist-title-text">王位</div>
+                            <div class="playlist-artist">杨和苏KeyNG</div>
+                        </div>
+                        <div class="playlist-duration">3:58</div>
+                    </div>
+
+                    <div class="playlist-item" onclick="playSong(this, '金斧子银斧子', '薛之谦')">
+                        <div class="playlist-cover" style="background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);"></div>
+                        <div class="playlist-info">
+                            <div class="playlist-title-text">金斧子银斧子</div>
+                            <div class="playlist-artist">薛之谦</div>
+                        </div>
+                        <div class="playlist-duration">4:15</div>
+                    </div>
+
+                    <div class="playlist-item" onclick="playSong(this, '于是', '邓紫棋')">
+                        <div class="playlist-cover" style="background: linear-gradient(135deg, #ffe66d 0%, #f4a261 100%);"></div>
+                        <div class="playlist-info">
+                            <div class="playlist-title-text">于是</div>
+                            <div class="playlist-artist">邓紫棋</div>
+                        </div>
+                        <div class="playlist-duration">3:42</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/music-player.js"></script>
+</body>
+</html>
