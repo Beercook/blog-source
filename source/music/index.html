@@ -1,9 +1,15 @@
+---
+title: 我的音乐
+date: 2026-05-05 12:00:00
+comments: false
+top_img: /img/top-banner.jpg
+---
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的音乐 - 金东岩的博客</title>
     <link rel="stylesheet" href="/css/music-netease.css">
     <style>
         /* 继承博客主题背景 */
@@ -24,40 +30,6 @@
             scroll-behavior: auto !important;
         }
         
-        /* 主图区域样式 */
-        .page-banner {
-            position: relative;
-            width: 100%;
-            height: 300px;
-            background-image: url('/img/top-banner.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            margin-bottom: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .page-banner::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.3);
-        }
-        
-        .page-banner-title {
-            position: relative;
-            z-index: 1;
-            font-size: 2.5em;
-            font-weight: bold;
-            color: white;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
-        }
-        
         /* 移除导航栏的margin-top */
         .music-header {
             margin-top: 0;
@@ -66,11 +38,6 @@
 </head>
 <body>
     <div class="music-page-container">
-        <!-- 主图区域 -->
-        <div class="page-banner">
-            <h1 class="page-banner-title">我的音乐</h1>
-        </div>
-        
         <div class="music-content-wrapper">
             <!-- 顶部导航 -->
             <div class="music-header">
@@ -146,7 +113,7 @@
                 <div class="playlist-header">
                     <div class="playlist-title">
                         播放列表
-                        <span class="playlist-count">3首</span>
+                        <span class="playlist-count">6首</span>
                     </div>
                 </div>
                 <div class="playlist-grid">
@@ -175,6 +142,33 @@
                             <div class="playlist-artist">邓紫棋</div>
                         </div>
                         <div class="playlist-duration">3:42</div>
+                    </div>
+
+                    <div class="playlist-item" onclick="playSong(this, 'Walk On Water', 'Eminem')">
+                        <div class="playlist-cover" style="background-image: url('/music/covers/WalkOnWater.jpg'); background-size: cover; background-position: center;"></div>
+                        <div class="playlist-info">
+                            <div class="playlist-title-text">Walk On Water</div>
+                            <div class="playlist-artist">Eminem</div>
+                        </div>
+                        <div class="playlist-duration">4:30</div>
+                    </div>
+
+                    <div class="playlist-item" onclick="playSong(this, '年少有为', '李荣浩')">
+                        <div class="playlist-cover" style="background-image: url('/music/covers/年少有为.jpg'); background-size: cover; background-position: center;"></div>
+                        <div class="playlist-info">
+                            <div class="playlist-title-text">年少有为</div>
+                            <div class="playlist-artist">李荣浩</div>
+                        </div>
+                        <div class="playlist-duration">4:35</div>
+                    </div>
+
+                    <div class="playlist-item" onclick="playSong(this, '赤焰之缨', '晓月凛')">
+                        <div class="playlist-cover" style="background-image: url('/music/covers/赤焰之缨.jpg'); background-size: cover; background-position: center;"></div>
+                        <div class="playlist-info">
+                            <div class="playlist-title-text">赤焰之缨</div>
+                            <div class="playlist-artist">晓月凛</div>
+                        </div>
+                        <div class="playlist-duration">4:20</div>
                     </div>
                 </div>
             </div>

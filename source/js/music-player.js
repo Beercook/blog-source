@@ -34,6 +34,30 @@ class MusicPlayer {
                 cover: '/music/covers/于是.jpg',
                 lrc: '/music/lrc/于是.lrc',
                 duration: '3:42'
+            },
+            {
+                title: 'Walk On Water',
+                artist: 'Eminem',
+                url: '/music/audio/WalkOnWater.mp3',
+                cover: '/music/covers/WalkOnWater.jpg',
+                lrc: '/music/lrc/WalkOnWater.lrc',
+                duration: '4:30'
+            },
+            {
+                title: '年少有为',
+                artist: '李荣浩',
+                url: '/music/audio/年少有为.mp3',
+                cover: '/music/covers/年少有为.jpg',
+                lrc: '/music/lrc/年少有为.lrc',
+                duration: '4:35'
+            },
+            {
+                title: '赤焰之缨',
+                artist: '晓月凛',
+                url: '/music/audio/赤焰之缨.mp3',
+                cover: '/music/covers/赤焰之缨.jpg',
+                lrc: '/music/lrc/赤焰之缨.lrc',
+                duration: '4:20'
             }
         ];
         
