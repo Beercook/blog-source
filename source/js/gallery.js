@@ -2,6 +2,79 @@
  * 相册页面交互脚本 - Gallery Page Scripts
  */
 
+// 从YAML数据加载照片（需要手动维护JSON格式）
+const galleryData = {
+  photos: [
+    {
+      title: "毒液",
+      image: "/gallery/photos/duye.jpg",
+      category: "wallpaper"
+    },
+    {
+      title: "粉色",
+      image: "/gallery/photos/fense.jpeg",
+      category: "wallpaper"
+    },
+    {
+      title: "势太史慈",
+      image: "/gallery/photos/shitaishici.jpg",
+      category: "wallpaper"
+    },
+    {
+      title: "势魏延",
+      image: "/gallery/photos/shiweiyan.jpg",
+      category: "wallpaper"
+    }
+  ]
+};
+
+// 渲染照片网格
+function renderPhotos() {
+  const grid = document.getElementById('photoGrid');
+  if (!grid) return;
+  
+  let html = '';
+  
+  galleryData.photos.forEach(photo => {
+    const tagClass = `tag-${photo.category}`;
+    const tagName = getCategoryName(photo.category);
+    
+    html += `
+<div class="photo-item" data-category="${photo.category}">
+  <a href="${photo.image}" target="_blank">
+    <img src="${photo.image}" alt="${photo.title}">
+  </a>
+  <div class="photo-info">
+    <div class="photo-title">${photo.title}</div>
+    <span class="photo-tag ${tagClass}">${tagName}</span>
+  </div>
+</div>`;
+  });
+  
+  grid.innerHTML = html;
+  
+  // 更新统计信息
+  updateStats();
+}
+
+// 获取分类名称
+function getCategoryName(category) {
+  const names = {
+    'wallpaper': '壁纸',
+    'life': '生活',
+    'photography': '摄影'
+  };
+  return names[category] || category;
+}
+
+// 更新统计信息
+function updateStats() {
+  const totalEl = document.getElementById('totalPhotos');
+  if (totalEl) {
+    totalEl.textContent = galleryData.photos.length;
+  }
+}
+
 // 照片筛选功能
 function filterPhotos(category) {
   const items = document.querySelectorAll('.photo-item');
@@ -29,34 +102,7 @@ function filterPhotos(category) {
   });
 }
 
-// 自动统计照片数量
-function updateGalleryStats() {
-  const photoItems = document.querySelectorAll('.photo-item');
-  const categories = new Set();
-  
-  photoItems.forEach(item => {
-    categories.add(item.dataset.category);
-  });
-  
-  // 更新总照片数
-  const totalNumberEl = document.querySelector('.stat-number');
-  if (totalNumberEl && totalNumberEl.textContent === '4') {
-    totalNumberEl.textContent = photoItems.length;
-  }
-  
-  // 更新分类数量
-  const categoryLabels = document.querySelectorAll('.stat-label');
-  categoryLabels.forEach(label => {
-    if (label.textContent === '分类数量') {
-      const numberEl = label.previousElementSibling;
-      if (numberEl) {
-        numberEl.textContent = categories.size;
-      }
-    }
-  });
-}
-
 // 页面加载完成后执行
 document.addEventListener('DOMContentLoaded', function() {
-  updateGalleryStats();
+  renderPhotos();
 });

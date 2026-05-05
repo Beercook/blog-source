@@ -1,237 +1,3 @@
-function filterPhotos(category) {
-  const items = document.querySelectorAll('.photo-item');
-  const tabs = document.querySelectorAll('.filter-tab');
-  
-  // 更新标签状态
-  tabs.forEach(tab => tab.classList.remove('active'));
-  event.target.classList.add('active');
-  
-  // 筛选照片
-  items.forEach((item, index) => {
-    if (category === 'all' || item.dataset.category === category) {
-      item.style.display = 'block';
-      setTimeout(() => {
-        item.style.opacity = '1';
-        item.style.transform = 'scale(1)';
-      }, index * 50);
-    } else {
-      item.style.opacity = '0';
-      item.style.transform = 'scale(0.8)';
-      setTimeout(() => {
-        item.style.display = 'none';
-      }, 300);
-    }
-  });
-}
-/* 相册统计样式 */
-.gallery-stats {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  margin: 30px 0;
-  flex-wrap: wrap;
-}
-
-.stat-item {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 20px 30px;
-  border-radius: 12px;
-  text-align: center;
-  color: white;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-  min-width: 120px;
-}
-
-.stat-number {
-  font-size: 2.5em;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.stat-label {
-  font-size: 0.9em;
-  opacity: 0.9;
-}
-
-/* 筛选标签样式 */
-.filter-tabs {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin: 30px 0;
-  flex-wrap: wrap;
-}
-
-.filter-tab {
-  padding: 10px 25px;
-  background: white;
-  border: 2px solid #667eea;
-  color: #667eea;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 500;
-  font-size: 1em;
-}
-
-.filter-tab:hover {
-  background: #667eea;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-}
-
-.filter-tab.active {
-  background: #667eea;
-  color: white;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-}
-
-/* 照片网格样式 */
-.photo-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 25px;
-  padding: 20px 0;
-}
-
-.photo-item {
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
-  animation: fadeIn 0.5s ease;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.photo-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-}
-
-.photo-item a {
-  display: block;
-  overflow: hidden;
-}
-
-.photo-item img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.3s ease;
-}
-
-.photo-item:hover img {
-  transform: scale(1.05);
-}
-
-.photo-info {
-  padding: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.photo-title {
-  font-size: 1.1em;
-  color: #2c3e50;
-  font-weight: 600;
-}
-
-.photo-tag {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 0.8em;
-  font-weight: 500;
-}
-
-.tag-wallpaper {
-  background: #ffeaa7;
-  color: #d63031;
-}
-
-.tag-life {
-  background: #74b9ff;
-  color: #0984e3;
-}
-
-.tag-photography {
-  background: #a29bfe;
-  color: #6c5ce7;
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .photo-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-  }
-  
-  .gallery-stats {
-    gap: 15px;
-  }
-  
-  .stat-item {
-    padding: 15px 20px;
-    min-width: 100px;
-  }
-  
-  .stat-number {
-    font-size: 2em;
-  }
-  
-  .filter-tabs {
-    gap: 10px;
-  }
-  
-  .filter-tab {
-    padding: 8px 20px;
-    font-size: 0.9em;
-  }
-}
-
-@media (max-width: 480px) {
-  .photo-grid {
-    grid-template-columns: 1fr;
-  }
-}
-categories:
-  - id: wallpaper
-    name: 壁纸
-    icon: "🖼️"
-  - id: life
-    name: 生活
-    icon: "📸"
-  - id: photography
-    name: 摄影
-    icon: "📷"
-
-photos:
-  - title: 毒液
-    image: /gallery/photos/duye.jpg
-    category: wallpaper
-  - title: 粉色
-    image: /gallery/photos/fense.jpeg
-    category: wallpaper
-  - title: 势太史慈
-    image: /gallery/photos/shitaishici.jpg
-    category: wallpaper
-  - title: 势魏延
-    image: /gallery/photos/shiweiyan.jpg
-    category: wallpaper
 ---
 title: 我的相册
 date: 2026-04-30 20:00:00
@@ -249,11 +15,11 @@ top_img: /img/top-banner.jpg
 
 <div class="gallery-stats">
   <div class="stat-item">
-    <div class="stat-number">{{ site.data.gallery.photos.length }}</div>
+    <div class="stat-number" id="totalPhotos">0</div>
     <div class="stat-label">总照片数</div>
   </div>
   <div class="stat-item">
-    <div class="stat-number">{{ site.data.gallery.categories.length }}</div>
+    <div class="stat-number">3</div>
     <div class="stat-label">分类数量</div>
   </div>
 </div>
@@ -264,9 +30,9 @@ top_img: /img/top-banner.jpg
 
 <div class="filter-tabs">
   <button class="filter-tab active" onclick="filterPhotos('all')">全部</button>
-  {% for category in site.data.gallery.categories %}
-  <button class="filter-tab" onclick="filterPhotos('{{ category.id }}')">{{ category.icon }} {{ category.name }}</button>
-  {% endfor %}
+  <button class="filter-tab" onclick="filterPhotos('wallpaper')">🖼️ 壁纸</button>
+  <button class="filter-tab" onclick="filterPhotos('life')">📸 生活</button>
+  <button class="filter-tab" onclick="filterPhotos('photography')">📷 摄影</button>
 </div>
 
 ---
@@ -275,23 +41,7 @@ top_img: /img/top-banner.jpg
 
 <div class="photo-grid" id="photoGrid">
 
-{% for photo in site.data.gallery.photos %}
-<div class="photo-item" data-category="{{ photo.category }}">
-  <a href="{{ photo.image }}" target="_blank">
-    <img src="{{ photo.image }}" alt="{{ photo.title }}">
-  </a>
-  <div class="photo-info">
-    <div class="photo-title">{{ photo.title }}</div>
-    {% if photo.category == 'wallpaper' %}
-    <span class="photo-tag tag-wallpaper">壁纸</span>
-    {% elsif photo.category == 'life' %}
-    <span class="photo-tag tag-life">生活</span>
-    {% elsif photo.category == 'photography' %}
-    <span class="photo-tag tag-photography">摄影</span>
-    {% endif %}
-  </div>
-</div>
-{% endfor %}
+<!-- 照片将通过JavaScript从YAML数据动态生成 -->
 
 </div>
 
