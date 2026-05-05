@@ -18,6 +18,16 @@
         .bg-blur {
             display: none;
         }
+        
+        /* 防止页面自动滚动到顶部 */
+        html {
+            scroll-behavior: auto !important;
+        }
+        
+        /* 主图样式与其他页面保持一致 */
+        .music-header {
+            margin-top: 60px;
+        }
     </style>
 </head>
 <body>
@@ -26,8 +36,7 @@
             <!-- 顶部导航 -->
             <div class="music-header">
                 <a href="/" class="back-btn">←</a>
-                <div class="page-title">正在播放</div>
-                <button class="more-btn">⋮</button>
+                <div class="page-title">我的音乐</div>
             </div>
 
             <div class="music-main-content">
@@ -103,7 +112,7 @@
                 </div>
                 <div class="playlist-grid">
                     <div class="playlist-item" onclick="playSong(this, '王位', '杨和苏KeyNG')">
-                        <div class="playlist-cover" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                        <div class="playlist-cover" style="background-image: url('/music/covers/王位.jpg'); background-size: cover; background-position: center;"></div>
                         <div class="playlist-info">
                             <div class="playlist-title-text">王位</div>
                             <div class="playlist-artist">杨和苏KeyNG</div>
@@ -112,7 +121,7 @@
                     </div>
 
                     <div class="playlist-item" onclick="playSong(this, '金斧子银斧子', '薛之谦')">
-                        <div class="playlist-cover" style="background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);"></div>
+                        <div class="playlist-cover" style="background-image: url('/music/covers/jinfuzi.jpg'); background-size: cover; background-position: center;"></div>
                         <div class="playlist-info">
                             <div class="playlist-title-text">金斧子银斧子</div>
                             <div class="playlist-artist">薛之谦</div>
@@ -121,7 +130,7 @@
                     </div>
 
                     <div class="playlist-item" onclick="playSong(this, '于是', '邓紫棋')">
-                        <div class="playlist-cover" style="background: linear-gradient(135deg, #ffe66d 0%, #f4a261 100%);"></div>
+                        <div class="playlist-cover" style="background-image: url('/music/covers/于是.jpg'); background-size: cover; background-position: center;"></div>
                         <div class="playlist-info">
                             <div class="playlist-title-text">于是</div>
                             <div class="playlist-artist">邓紫棋</div>

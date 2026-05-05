@@ -7,6 +7,7 @@ class MusicPlayer {
         this.lyrics = [];
         this.currentLyricIndex = -1;
         this.isLoaded = false;
+        this.scrollPosition = 0; // 保存滚动位置
         
         // 歌曲列表 - 使用正确的路径
         this.songs = [
@@ -59,10 +60,12 @@ class MusicPlayer {
     }
     
     bindEvents() {
-        // 播放/暂停按钮
+        // 播放/暂停按钮 - 使用更可靠的绑定方式
         if (this.playBtn) {
             this.playBtn.addEventListener('click', (e) => {
                 e.preventDefault();
+                e.stopPropagation();
+                console.log('点击播放按钮');
                 this.togglePlay();
             });
         }
@@ -73,6 +76,7 @@ class MusicPlayer {
         this.audio.addEventListener('loadedmetadata', () => {
             this.totalTimeEl.textContent = this.formatTime(this.audio.duration);
             this.isLoaded = true;
+            console.log('音频元数据加载完成');
         });
         
         this.audio.addEventListener('canplaythrough', () => {
@@ -84,11 +88,35 @@ class MusicPlayer {
             alert('音频加载失败，请检查文件路径');
         });
         
+        this.audio.addEventListener('pause', () => {
+            console.log('音频已暂停');
+            this.isPlaying = false;
+            this.updatePlayButton();
+        });
+        
+        this.audio.addEventListener('play', () => {
+            console.log('音频开始播放');
+            this.isPlaying = true;
+            this.updatePlayButton();
+        });
+        
         // 进度条点击
         const progressBar = document.querySelector('.progress-bar');
         if (progressBar) {
             progressBar.addEventListener('click', (e) => this.seek(e));
         }
+        
+        // 防止页面自动滚动到顶部
+        window.addEventListener('beforeunload', () => {
+            this.scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        });
+        
+        // 页面加载后恢复滚动位置
+        window.addEventListener('load', () => {
+            if (this.scrollPosition > 0) {
+                window.scrollTo(0, this.scrollPosition);
+            }
+        });
     }
     
     async loadSong(index) {
@@ -190,10 +218,16 @@ class MusicPlayer {
     }
     
     togglePlay() {
-        console.log('切换播放状态，当前:', this.isPlaying);
+        console.log('切换播放状态，当前:', this.isPlaying, '已加载:', this.isLoaded);
         
         if (!this.isLoaded) {
             console.log('音频未加载完成，等待...');
+            // 等待音频加载
+            setTimeout(() => {
+                if (this.isLoaded) {
+                    this.togglePlay();
+                }
+            }, 500);
             return;
         }
         
@@ -205,13 +239,17 @@ class MusicPlayer {
     }
     
     play() {
-        console.log('开始播放');
+        console.log('开始播放，当前状态:', this.audio.paused);
+        
+        if (!this.audio.paused) {
+            console.log('音频已经在播放');
+            return;
+        }
+        
         const playPromise = this.audio.play();
         
         if (playPromise !== undefined) {
             playPromise.then(() => {
-                this.isPlaying = true;
-                this.updatePlayButton();
                 console.log('播放成功');
             }).catch(error => {
                 console.error('播放失败:', error);
@@ -221,16 +259,21 @@ class MusicPlayer {
     }
     
     pause() {
-        console.log('暂停播放');
+        console.log('暂停播放，当前状态:', !this.audio.paused);
+        
+        if (this.audio.paused) {
+            console.log('音频已经暂停');
+            return;
+        }
+        
         this.audio.pause();
-        this.isPlaying = false;
-        this.updatePlayButton();
-        console.log('暂停成功');
+        console.log('暂停命令已发送');
     }
     
     updatePlayButton() {
         if (this.playBtn) {
             this.playBtn.textContent = this.isPlaying ? '⏸' : '▶';
+            console.log('更新按钮状态:', this.isPlaying ? '暂停图标' : '播放图标');
         }
         
         if (this.isPlaying) {
