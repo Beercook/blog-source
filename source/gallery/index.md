@@ -1,91 +1,28 @@
----
-title: 我的相册
-date: 2026-04-30 20:00:00
-comments: false
-top_img: /img/top-banner.jpg
----
-
-# 📸 我的相册
-
-这里展示我的生活照片和精彩瞬间。按主题分类，快速浏览你感兴趣的内容。
-
----
-
-## 📊 相册统计
-
-<div class="gallery-stats">
-  <div class="stat-item">
-    <div class="stat-number">4</div>
-    <div class="stat-label">总照片数</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-number">3</div>
-    <div class="stat-label">分类数量</div>
-  </div>
-</div>
-
----
-
-## 🏷️ 分类筛选
-
-<div class="filter-tabs">
-  <button class="filter-tab active" onclick="filterPhotos('all')">全部</button>
-  <button class="filter-tab" onclick="filterPhotos('wallpaper')">🖼️ 壁纸</button>
-  <button class="filter-tab" onclick="filterPhotos('life')">📸 生活</button>
-  <button class="filter-tab" onclick="filterPhotos('photography')">📷 摄影</button>
-</div>
-
----
-
-## 🖼️ 照片墙
-
-<div class="photo-grid" id="photoGrid">
-
-<div class="photo-item" data-category="wallpaper">
-  <a href="/gallery/photos/duye.jpg" target="_blank">
-    <img src="/gallery/photos/duye.jpg" alt="毒液">
-  </a>
-  <div class="photo-info">
-    <div class="photo-title">毒液</div>
-    <span class="photo-tag tag-wallpaper">壁纸</span>
-  </div>
-</div>
-
-<div class="photo-item" data-category="wallpaper">
-  <a href="/gallery/photos/fense.jpeg" target="_blank">
-    <img src="/gallery/photos/fense.jpeg" alt="粉色">
-  </a>
-  <div class="photo-info">
-    <div class="photo-title">粉色</div>
-    <span class="photo-tag tag-wallpaper">壁纸</span>
-  </div>
-</div>
-
-<div class="photo-item" data-category="wallpaper">
-  <a href="/gallery/photos/shitaishici.jpg" target="_blank">
-    <img src="/gallery/photos/shitaishici.jpg" alt="势太史慈">
-  </a>
-  <div class="photo-info">
-    <div class="photo-title">势太史慈</div>
-    <span class="photo-tag tag-wallpaper">壁纸</span>
-  </div>
-</div>
-
-<div class="photo-item" data-category="wallpaper">
-  <a href="/gallery/photos/shiweiyan.jpg" target="_blank">
-    <img src="/gallery/photos/shiweiyan.jpg" alt="势魏延">
-  </a>
-  <div class="photo-info">
-    <div class="photo-title">势魏延</div>
-    <span class="photo-tag tag-wallpaper">壁纸</span>
-  </div>
-</div>
-
-</div>
-
----
-
-<style>
+function filterPhotos(category) {
+  const items = document.querySelectorAll('.photo-item');
+  const tabs = document.querySelectorAll('.filter-tab');
+  
+  // 更新标签状态
+  tabs.forEach(tab => tab.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  // 筛选照片
+  items.forEach((item, index) => {
+    if (category === 'all' || item.dataset.category === category) {
+      item.style.display = 'block';
+      setTimeout(() => {
+        item.style.opacity = '1';
+        item.style.transform = 'scale(1)';
+      }, index * 50);
+    } else {
+      item.style.opacity = '0';
+      item.style.transform = 'scale(0.8)';
+      setTimeout(() => {
+        item.style.display = 'none';
+      }, 300);
+    }
+  });
+}
 /* 相册统计样式 */
 .gallery-stats {
   display: flex;
@@ -271,32 +208,93 @@ top_img: /img/top-banner.jpg
     grid-template-columns: 1fr;
   }
 }
-</style>
+categories:
+  - id: wallpaper
+    name: 壁纸
+    icon: "🖼️"
+  - id: life
+    name: 生活
+    icon: "📸"
+  - id: photography
+    name: 摄影
+    icon: "📷"
 
-<script>
-function filterPhotos(category) {
-  const items = document.querySelectorAll('.photo-item');
-  const tabs = document.querySelectorAll('.filter-tab');
-  
-  // 更新标签状态
-  tabs.forEach(tab => tab.classList.remove('active'));
-  event.target.classList.add('active');
-  
-  // 筛选照片
-  items.forEach((item, index) => {
-    if (category === 'all' || item.dataset.category === category) {
-      item.style.display = 'block';
-      setTimeout(() => {
-        item.style.opacity = '1';
-        item.style.transform = 'scale(1)';
-      }, index * 50);
-    } else {
-      item.style.opacity = '0';
-      item.style.transform = 'scale(0.8)';
-      setTimeout(() => {
-        item.style.display = 'none';
-      }, 300);
-    }
-  });
-}
-</script>
+photos:
+  - title: 毒液
+    image: /gallery/photos/duye.jpg
+    category: wallpaper
+  - title: 粉色
+    image: /gallery/photos/fense.jpeg
+    category: wallpaper
+  - title: 势太史慈
+    image: /gallery/photos/shitaishici.jpg
+    category: wallpaper
+  - title: 势魏延
+    image: /gallery/photos/shiweiyan.jpg
+    category: wallpaper
+---
+title: 我的相册
+date: 2026-04-30 20:00:00
+comments: false
+top_img: /img/top-banner.jpg
+---
+
+# 📸 我的相册
+
+这里展示我的生活照片和精彩瞬间。按主题分类，快速浏览你感兴趣的内容。
+
+---
+
+## 📊 相册统计
+
+<div class="gallery-stats">
+  <div class="stat-item">
+    <div class="stat-number">{{ site.data.gallery.photos.length }}</div>
+    <div class="stat-label">总照片数</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">{{ site.data.gallery.categories.length }}</div>
+    <div class="stat-label">分类数量</div>
+  </div>
+</div>
+
+---
+
+## 🏷️ 分类筛选
+
+<div class="filter-tabs">
+  <button class="filter-tab active" onclick="filterPhotos('all')">全部</button>
+  {% for category in site.data.gallery.categories %}
+  <button class="filter-tab" onclick="filterPhotos('{{ category.id }}')">{{ category.icon }} {{ category.name }}</button>
+  {% endfor %}
+</div>
+
+---
+
+## 🖼️ 照片墙
+
+<div class="photo-grid" id="photoGrid">
+
+{% for photo in site.data.gallery.photos %}
+<div class="photo-item" data-category="{{ photo.category }}">
+  <a href="{{ photo.image }}" target="_blank">
+    <img src="{{ photo.image }}" alt="{{ photo.title }}">
+  </a>
+  <div class="photo-info">
+    <div class="photo-title">{{ photo.title }}</div>
+    {% if photo.category == 'wallpaper' %}
+    <span class="photo-tag tag-wallpaper">壁纸</span>
+    {% elsif photo.category == 'life' %}
+    <span class="photo-tag tag-life">生活</span>
+    {% elsif photo.category == 'photography' %}
+    <span class="photo-tag tag-photography">摄影</span>
+    {% endif %}
+  </div>
+</div>
+{% endfor %}
+
+</div>
+
+<!-- 引入外部样式和脚本 -->
+<link rel="stylesheet" href="/css/gallery.css">
+<script src="/js/gallery.js"></script>
