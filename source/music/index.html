@@ -24,19 +24,58 @@
             scroll-behavior: auto !important;
         }
         
-        /* 主图样式与其他页面保持一致 */
+        /* 主图区域样式 */
+        .page-banner {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            background-image: url('/img/top-banner.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .page-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .page-banner-title {
+            position: relative;
+            z-index: 1;
+            font-size: 2.5em;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* 移除导航栏的margin-top */
         .music-header {
-            margin-top: 60px;
+            margin-top: 0;
         }
     </style>
 </head>
 <body>
     <div class="music-page-container">
+        <!-- 主图区域 -->
+        <div class="page-banner">
+            <h1 class="page-banner-title">我的音乐</h1>
+        </div>
+        
         <div class="music-content-wrapper">
             <!-- 顶部导航 -->
             <div class="music-header">
                 <a href="/" class="back-btn">←</a>
-                <div class="page-title">我的音乐</div>
+                <div class="page-title"></div>
             </div>
 
             <div class="music-main-content">

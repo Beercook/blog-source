@@ -323,11 +323,22 @@ class MusicPlayer {
             if (allLines[activeIndex]) {
                 allLines[activeIndex].classList.add('active');
                 
-                // 平滑滚动到当前行
-                allLines[activeIndex].scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                });
+                // 只在歌词容器内滚动，不影响整个页面
+                const lyricsContainer = document.querySelector('.lyrics-content');
+                if (lyricsContainer) {
+                    const activeLine = allLines[activeIndex];
+                    const containerRect = lyricsContainer.getBoundingClientRect();
+                    const lineRect = activeLine.getBoundingClientRect();
+                    
+                    // 计算需要滚动的位置（相对于容器）
+                    const scrollTop = lyricsContainer.scrollTop + (lineRect.top - containerRect.top) - (containerRect.height / 2) + (lineRect.height / 2);
+                    
+                    // 平滑滚动到目标位置
+                    lyricsContainer.scrollTo({
+                        top: scrollTop,
+                        behavior: 'smooth'
+                    });
+                }
             }
         }
     }
