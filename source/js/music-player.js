@@ -184,11 +184,17 @@ class MusicPlayer {
         this.songTitleEl.textContent = song.title;
         this.songArtistEl.textContent = song.artist;
         
-        // 更新封面
+        // 更新封面 - 使用更可靠的方式
         if (this.discCoverEl) {
-            this.discCoverEl.style.backgroundImage = `url(${song.cover})`;
+            // 先清除所有背景相关样式
+            this.discCoverEl.style.background = 'none';
+            this.discCoverEl.style.backgroundColor = 'transparent';
+            // 然后设置背景图片
+            this.discCoverEl.style.backgroundImage = `url('${song.cover}')`;
             this.discCoverEl.style.backgroundSize = 'cover';
             this.discCoverEl.style.backgroundPosition = 'center';
+            this.discCoverEl.style.backgroundRepeat = 'no-repeat';
+            console.log('封面已更新为:', song.cover);
         }
         
         // 停止当前播放
