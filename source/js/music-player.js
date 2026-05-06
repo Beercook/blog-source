@@ -37,7 +37,7 @@ class MusicPlayer {
             },
             {
                 title: 'Walk On Water',
-                artist: 'Eminem',
+                artist: '邓紫棋',
                 url: '/music/audio/WalkOnWater.mp3',
                 cover: '/music/covers/WalkOnWater.jpg',
                 lrc: '/music/lrc/WalkOnWater.lrc',
@@ -53,11 +53,43 @@ class MusicPlayer {
             },
             {
                 title: '赤焰之缨',
-                artist: '晓月凛',
+                artist: '王者荣耀',
                 url: '/music/audio/赤焰之缨.mp3',
                 cover: '/music/covers/赤焰之缨.jpg',
                 lrc: '/music/lrc/赤焰之缨.lrc',
                 duration: '4:20'
+            },
+            {
+                title: '我又想你了',
+                artist: '陈信喆',
+                url: '/music/audio/我又想你了.mp3',
+                cover: '/music/covers/我又想你了.jpg',
+                lrc: '/music/lrc/我又想你了.lrc',
+                duration: '4:25'
+            },
+            {
+                title: '无数',
+                artist: '薛之谦',
+                url: '/music/audio/无数.mp3',
+                cover: '/music/covers/无数.png',
+                lrc: '/music/lrc/无数.lrc',
+                duration: '5:10'
+            },
+            {
+                title: '泡沫',
+                artist: 'G.E.M. 邓紫棋',
+                url: '/music/audio/泡沫.mp3',
+                cover: '/music/covers/泡沫.jpg',
+                lrc: '/music/lrc/泡沫.lrc',
+                duration: '4:15'
+            },
+            {
+                title: '灵魂歌手',
+                artist: '梁博',
+                url: '/music/audio/灵魂歌手.mp3',
+                cover: '/music/covers/灵魂歌手.jpg',
+                lrc: '/music/lrc/灵魂歌手.lrc',
+                duration: '6:30'
             }
         ];
         
