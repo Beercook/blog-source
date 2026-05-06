@@ -79,6 +79,14 @@
     grid-template-columns: 1fr 1fr;
     gap: 50px;
     margin-bottom: 40px;
+    /* 添加深色半透明背景，与白色背景区分 */
+    background: linear-gradient(135deg, rgba(30, 30, 46, 0.95) 0%, rgba(45, 45, 68, 0.95) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* 左侧：唱片区 */
@@ -88,6 +96,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
+    min-height: 600px;
 }
 
 /* 黑胶唱片容器 */
