@@ -160,11 +160,11 @@ top_img: /img/top-banner.jpg
                     <div class="playlist-duration">3:42</div>
                 </div>
 
-                <div class="playlist-item" onclick="playSong(this, 'Walk On Water', 'Eminem')">
+                <div class="playlist-item" onclick="playSong(this, 'Walk On Water', '邓紫棋')">
                     <div class="playlist-cover" style="background-image: url('/music/covers/WalkOnWater.jpg'); background-size: cover; background-position: center;"></div>
                     <div class="playlist-info">
                         <div class="playlist-title-text">Walk On Water</div>
-                        <div class="playlist-artist">Eminem</div>
+                        <div class="playlist-artist">邓紫棋</div>
                     </div>
                     <div class="playlist-duration">4:30</div>
                 </div>
@@ -178,11 +178,11 @@ top_img: /img/top-banner.jpg
                     <div class="playlist-duration">4:35</div>
                 </div>
 
-                <div class="playlist-item" onclick="playSong(this, '赤焰之缨', '晓月凛')">
+                <div class="playlist-item" onclick="playSong(this, '赤焰之缨', '王者荣耀')">
                     <div class="playlist-cover" style="background-image: url('/music/covers/赤焰之缨.jpg'); background-size: cover; background-position: center;"></div>
                     <div class="playlist-info">
                         <div class="playlist-title-text">赤焰之缨</div>
-                        <div class="playlist-artist">晓月凛</div>
+                        <div class="playlist-artist">王者荣耀</div>
                     </div>
                     <div class="playlist-duration">4:20</div>
                 </div>
@@ -205,11 +205,11 @@ top_img: /img/top-banner.jpg
                     <div class="playlist-duration">5:10</div>
                 </div>
 
-                <div class="playlist-item" onclick="playSong(this, '泡沫', 'G.E.M. 邓紫棋')">
+                <div class="playlist-item" onclick="playSong(this, '泡沫', '邓紫棋')">
                     <div class="playlist-cover" style="background-image: url('/music/covers/泡沫.jpg'); background-size: cover; background-position: center;"></div>
                     <div class="playlist-info">
                         <div class="playlist-title-text">泡沫</div>
-                        <div class="playlist-artist">G.E.M. 邓紫棋</div>
+                        <div class="playlist-artist">邓紫棋</div>
                     </div>
                     <div class="playlist-duration">4:15</div>
                 </div>
@@ -228,7 +228,7 @@ top_img: /img/top-banner.jpg
     
     <!-- 版权声明 -->
     <div class="copyright-notice">
-        <p>声明：本页面音乐仅用于个人收听，不用于任何商业用途及盈利，如有侵权，请联系我删除 1811552860@qq.com</p>
+        <p>声明📢：本页面音乐仅用于个人收听，不用于任何商业用途及盈利，如有侵权，请联系我删除📮 1811552860@qq.com</p>
     </div>
 </div>
 
