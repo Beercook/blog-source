@@ -113,6 +113,9 @@ class MusicPlayer {
         this.discCoverEl = document.querySelector('.disc-cover');
         this.lyricsContent = document.getElementById('lyricsContent');
         this.playlistItems = document.querySelectorAll('.playlist-item');
+        
+        // 初始化时确保黑胶唱片不旋转
+        this.stopVinylRotation();
     }
     
     bindEvents() {
@@ -202,6 +205,7 @@ class MusicPlayer {
         this.audio.currentTime = 0;
         this.isPlaying = false;
         this.updatePlayButton();
+        this.stopVinylRotation(); // 确保停止旋转
         
         // 加载新音频
         this.audio.src = song.url;
@@ -313,6 +317,7 @@ class MusicPlayer {
         if (playPromise !== undefined) {
             playPromise.then(() => {
                 console.log('播放成功');
+                this.startVinylRotation(); // 开始旋转
             }).catch(error => {
                 console.error('播放失败:', error);
                 alert('播放失败，请重试');
@@ -329,6 +334,7 @@ class MusicPlayer {
         }
         
         this.audio.pause();
+        this.stopVinylRotation(); // 立即停止旋转
         console.log('暂停命令已发送');
     }
     
@@ -339,10 +345,28 @@ class MusicPlayer {
         }
         
         if (this.isPlaying) {
-            this.vinylDisc.classList.add('playing');
-            this.needleArm.classList.add('playing');
+            this.startVinylRotation();
         } else {
+            this.stopVinylRotation();
+        }
+    }
+    
+    // 启动黑胶唱片旋转
+    startVinylRotation() {
+        if (this.vinylDisc) {
+            this.vinylDisc.classList.add('playing');
+        }
+        if (this.needleArm) {
+            this.needleArm.classList.add('playing');
+        }
+    }
+    
+    // 停止黑胶唱片旋转
+    stopVinylRotation() {
+        if (this.vinylDisc) {
             this.vinylDisc.classList.remove('playing');
+        }
+        if (this.needleArm) {
             this.needleArm.classList.remove('playing');
         }
     }
@@ -506,7 +530,7 @@ function playSong(element, title, artist) {
             // 延迟一下再播放，确保音频加载完成
             setTimeout(() => {
                 window.musicPlayer.play();
-            }, 500);
+            }, 300);
         }
     }
 }
