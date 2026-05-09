@@ -15,8 +15,8 @@ top_img: /img/top-banner.jpg
 #page .music-main-content { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 40px !important; margin-bottom: 40px !important; }
 #page .player-section { position: relative !important; }
 #page .disc-container { width: 100% !important; max-width: 500px !important; aspect-ratio: 1 !important; margin: 0 auto 30px !important; position: relative !important; }
-#page .vinyl-disc { width: 100% !important; height: 100% !important; border-radius: 50% !important; background: radial-gradient(circle at center, #333 0%, #111 50%, #000 100%) !important; position: relative !important; box-shadow: 0 0 40px rgba(0,0,0,0.5) !important; animation: rotate 20s linear infinite !important; }
-#page .disc-cover { position: absolute !important; top: 50% !important; left: 50% !important; transform: translate(-50%, -50%) !important; width: 35% !important; height: 35% !important; border-radius: 50% !important; background: url('/music/covers/王位.jpg') center/cover !important; }
+#page .vinyl-disc { width: 100% !important; height: 100% !important; border-radius: 50% !important; background: radial-gradient(circle at center, #333 0%, #111 50%, #000 100%) !important; position: relative !important; box-shadow: 0 0 40px rgba(0,0,0,0.5) !important; }
+#page .disc-cover { position: absolute !important; top: 50% !important; left: 50% !important; transform: translate(-50%, -50%) !important; width: 35% !important; height: 35% !important; border-radius: 50% !important; }
 @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 #page .song-info { text-align: center !important; margin-bottom: 30px !important; }
 #page .song-title { font-size: 24px !important; font-weight: bold !important; margin-bottom: 8px !important; }
@@ -49,6 +49,16 @@ top_img: /img/top-banner.jpg
 #page .playlist-duration { font-size: 12px !important; opacity: 0.6 !important; flex-shrink: 0 !important; }
 #page .copyright-notice { text-align: center !important; margin-top: 30px !important; padding: 20px !important; background: rgba(255,255,255,0.05) !important; border-radius: 10px !important; font-size: 12px !important; opacity: 0.8 !important; }
 #page .layout, #page #page, #page #content-wrap { background: transparent !important; }
+
+/* 修复旋转动画控制，确保只有在播放时才旋转 */
+#page .vinyl-disc {
+    animation: rotate 20s linear infinite !important;
+    animation-play-state: paused !important;
+}
+
+#page .vinyl-disc.playing {
+    animation-play-state: running !important;
+}
 </style>
 
 <link rel="stylesheet" href="/css/music-netease.css">

@@ -349,6 +349,7 @@ class MusicPlayer {
     // 启动黑胶唱片旋转
     startVinylRotation() {
         if (this.vinylDisc) {
+            this.vinylDisc.classList.add('playing');
             this.vinylDisc.style.animationPlayState = 'running';
         }
         if (this.needleArm) {
@@ -359,6 +360,7 @@ class MusicPlayer {
     // 停止黑胶唱片旋转
     stopVinylRotation() {
         if (this.vinylDisc) {
+            this.vinylDisc.classList.remove('playing');
             this.vinylDisc.style.animationPlayState = 'paused';
         }
         if (this.needleArm) {

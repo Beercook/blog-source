@@ -197,7 +197,6 @@
     width: 160px;
     height: 160px;
     border-radius: 50%;
-    background: transparent;
     box-shadow: 
         0 0 30px rgba(102, 126, 234, 0.5),
         inset 0 0 20px rgba(0,0,0,0.3);
