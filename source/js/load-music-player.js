@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 4. 加载音乐播放器脚本并初始化
     const script = document.createElement('script');
-    script.src = '/js/music-player.js';
+    script.src = '/js/music-player.js?v=' + new Date().getTime();  // 添加时间戳防止缓存
     script.onload = function() {
         // 等待DOM渲染完成后初始化播放器
         setTimeout(function() {
