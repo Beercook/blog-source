@@ -115,7 +115,9 @@ class MusicPlayer {
         this.playlistItems = document.querySelectorAll('.playlist-item');
         
         // 初始化时确保黑胶唱片不旋转
-        this.stopVinylRotation();
+        if (this.vinylDisc) {
+            this.vinylDisc.style.animationPlayState = 'paused';
+        }
     }
     
     bindEvents() {
@@ -151,12 +153,14 @@ class MusicPlayer {
             console.log('音频已暂停');
             this.isPlaying = false;
             this.updatePlayButton();
+            this.stopVinylRotation(); // 添加这行确保暂停时停止旋转
         });
         
         this.audio.addEventListener('play', () => {
             console.log('音频开始播放');
             this.isPlaying = true;
             this.updatePlayButton();
+            this.startVinylRotation(); // 添加这行确保播放时启动旋转
         });
         
         // 进度条点击
@@ -189,10 +193,7 @@ class MusicPlayer {
         
         // 更新封面 - 使用更可靠的方式
         if (this.discCoverEl) {
-            // 先清除所有背景相关样式
-            this.discCoverEl.style.background = 'none';
-            this.discCoverEl.style.backgroundColor = 'transparent';
-            // 然后设置背景图片
+            // 设置封面图片
             this.discCoverEl.style.backgroundImage = `url('${song.cover}')`;
             this.discCoverEl.style.backgroundSize = 'cover';
             this.discCoverEl.style.backgroundPosition = 'center';
@@ -343,18 +344,12 @@ class MusicPlayer {
             this.playBtn.textContent = this.isPlaying ? '⏸' : '▶';
             console.log('更新按钮状态:', this.isPlaying ? '暂停图标' : '播放图标');
         }
-        
-        if (this.isPlaying) {
-            this.startVinylRotation();
-        } else {
-            this.stopVinylRotation();
-        }
     }
     
     // 启动黑胶唱片旋转
     startVinylRotation() {
         if (this.vinylDisc) {
-            this.vinylDisc.classList.add('playing');
+            this.vinylDisc.style.animationPlayState = 'running';
         }
         if (this.needleArm) {
             this.needleArm.classList.add('playing');
@@ -364,7 +359,7 @@ class MusicPlayer {
     // 停止黑胶唱片旋转
     stopVinylRotation() {
         if (this.vinylDisc) {
-            this.vinylDisc.classList.remove('playing');
+            this.vinylDisc.style.animationPlayState = 'paused';
         }
         if (this.needleArm) {
             this.needleArm.classList.remove('playing');
