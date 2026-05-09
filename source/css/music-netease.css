@@ -176,7 +176,7 @@
         0 10px 40px rgba(0,0,0,0.6),
         inset 0 0 60px rgba(255,255,255,0.08);
     animation: rotate 20s linear infinite;
-    animation-play-state: paused !important;
+    animation-play-state: paused;
     position: relative;
     display: flex;
     align-items: center;
@@ -184,7 +184,7 @@
 }
 
 .vinyl-disc.playing {
-    animation-play-state: running !important;
+    animation-play-state: running;
 }
 
 @keyframes rotate {
