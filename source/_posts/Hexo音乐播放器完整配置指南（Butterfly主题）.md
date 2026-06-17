@@ -1,6 +1,6 @@
 ---
 title: Hexo音乐播放器完整配置指南（Butterfly主题）
-date: 2026-05-01 21:45:00
+date: 2025-12-15 10:36:00
 categories:
   - 技术文档
   - 网站文档
